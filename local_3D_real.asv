@@ -43,8 +43,7 @@ function [Solution]=local_3D_real
 %    8) Generalized Kullback-Leibler Divergence based.
 %    9) Itakura-Saito Divergence based.
 %    10) Jensen-Shannon Divergence based.
-%    11) Havrda-Charvat Divergence based.
-%    12) Rényi Divergence based.
+%    11) Jensen-Shannon Divergence based.
 %--------------------------------------------------------------------------
 % -> File requirements: 'GLTreePro'
 %--------------------------------------------------------------------------
@@ -122,7 +121,7 @@ if isempty(version_fitness),
 end
 
 alpha=0;
-if ((version_fitness==4)||(version_fitness==7)||(version_fitness==11)||(version_fitness==12))
+if ((version_fitness==4)||(version_fitness==7))
 alpha=input('\ \n Introduce variable parameter apply (0-1): \n ');
 if isempty(alpha),
    alpha=0.1;   
