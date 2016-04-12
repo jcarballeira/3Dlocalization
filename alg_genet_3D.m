@@ -161,11 +161,11 @@ while (count<=iter_max)%&&(error~=error_max)&&(error_max>error+10)%3*NP/2) %&&(e
     if version_de~=2
         pob_orden=sortrows(poblacion,1);
         for i=1:(int8(NP/20))
-            disc=random('unid',NP/2);
+            disc=random('unid',floor(NP/2));
             while disc==0
-                disc=random('unid',NP/2);
+                disc=random('unid',floor(NP/2));
             end
-            pob_orden(NP+1-i,:)=pob_orden(disc,:);
+            pob_orden(floor(NP+1-i),:)=pob_orden(disc,:);
         end
         poblacion=pob_orden;
     end 

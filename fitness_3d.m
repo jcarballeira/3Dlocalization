@@ -509,6 +509,60 @@ if (version_fitness==11)
     end
     end
     error=abs(HC);
+    
+end    
+% Rényi divergence    
+if (version_fitness==12),
+    RY_T=0;
+    OCL_T=0;
+    for j=1:num_barridos
+    for i=1:num_medidas
+      
+        RY=0;
+        if floor(dist_real_3d(j,i)+8) < floor(dist_est_3d(j,i)),
+            %      posible oclusion
+            %      medida       ______^_____
+            %      estimacion   ___________^
+            RY=RY+ floor(dist_real_3d(j,i))*(0.1^alpha)/0.05^(alpha-1);
+            RY=RY+ (0.9^alpha)/(0.05^(alpha-1))  ;
+            RY=RY+ (floor(dist_est_3d(j,i))-ceil(dist_real_3d(j,i)))*((0.15^alpha)/(0.05^(alpha-1)));
+            RY=RY+ 0.15^alpha/0.95^(alpha-1); 
+        elseif floor(dist_real_3d(j,i)+2)<floor(dist_est_3d(j,i)),
+            %      medida       _________^--
+            %      estimacion   ___________^
+            RY=RY+ floor(dist_real_3d(j,i))*(0.1^alpha/0.05^(alpha-1));
+            RY=RY+ 0.9^alpha/0.05^(alpha-1);
+            RY=RY+ (floor(dist_est_3d(j,i))-ceil(dist_real_3d(j,i)))*(0.5^alpha/0.05^(alpha-1));
+            RY=RY+ 0.5^alpha/0.95^(alpha-1);
+        elseif floor(dist_real_3d(j,i))>floor(dist_est_3d(j,i)+6),  
+            % imposible
+            RY=RY+floor(dist_real_3d(j,i))*(0.95^alpha/0.05^(alpha-1));        
+        elseif floor(dist_real_3d(j,i))>floor(dist_est_3d(j,i)),    
+            %      medida       ___________^
+            %      estimacion   ________^---
+            RY=RY+  floor(dist_est_3d(j,i))*(0.1^alpha/0.05^(alpha-1));      
+            RY=RY+  0.9^alpha/0.05^(alpha-1);
+            RY=RY+  (floor(dist_real_3d(j,i))-ceil(dist_est_3d(j,i)))*(0.99^alpha/0.05^(alpha-1));  
+            RY=RY+  0.5^alpha/0.95^(alpha-1);
+        elseif floor(dist_real_3d(j,i))<=floor(dist_est_3d(j,i)),   
+            %      medida       ___________^
+            %      estimacion   ___________^
+            RY=RY+  floor(dist_real_3d(j,i))*(0.1^alpha/0.05^(alpha-1));
+            RY=RY+  0.9^alpha/0.95^(alpha-1);   
+        end
+        
+        if (dist_real_3d(j,i)+8 <= dist_est_3d(j,i)),
+            % oclusion
+            OCL_T=OCL_T+1;
+        end
+        RY_T=RY_T+RY;
+        RY_T=1/(alpha-1)*log(RY_T);
+    end
+    end
+    
+    error=RY_T*(exp(OCL_T/num_medidas*num_barridos));
+end    
+    
 end
 
 
