@@ -2,5 +2,11 @@
 
 Experimentos:
 
-- Cómo cubrir todos los tipos de divergencias
-- Criterio de ceonvergencia común a todas las divergencias??
+- Cómo cubrir todos los tipos de divergencias, solo algunas?
+- Calculo de Np p NP fijo?
+- Como tratar el parametro alpha de algunas divs?
+- Para el porcentaje de acierto, cuantas pruebas?
+- Criterio de convergencia común a todas las divergencias??, analizar valores en pos buena para cada divergencia?
+    utilizar valores de pos real?(trampa)
+- Cuando parar, nº iteraciones, error real?(punto anterior) algun tipo de convergencia?
+
