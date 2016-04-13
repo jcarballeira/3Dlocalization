@@ -43,6 +43,8 @@ function [Solution]=local_3D_real
 %    8) Generalized Kullback-Leibler Divergence based.
 %    9) Itakura-Saito Divergence based.
 %    10) Jensen-Shannon Divergence based.
+%    11) Havrda-Charvat Divergence based.
+%    12) Rényi Divergence based.
 %--------------------------------------------------------------------------
 % -> File requirements: 'GLTreePro'
 %--------------------------------------------------------------------------
@@ -82,7 +84,7 @@ CR=0.75;                % Crossover constant
 %   Initialization of population size (NP). 2 options according to NP_opt: 
 %                       1: Initialized by function init_NP
 %                       Else: Fixed size given by code.
-NP_opt=2;
+NP_opt=1;
 if NP_opt==1
     NP=init_NP(dist_real_3d,incr_theta,num_medidas,num_barridos,err_dis);
 else
@@ -113,14 +115,16 @@ end
 %    8) Generalized Kullback-Leibler Divergence based.
 %    9) Itakura-Saito Divergence based.
 %    10) Jensen-Shannon Divergence based.
-version_fitness=input('\ \n Introduce the Fitness Function that you want to apply: \n 1) L2 Norm. Sum of the squared errors (Default). \n 2) L1 Norm. Sum of the absolute values of the error. \n 3) Kullback-Leibler Divergence based. \n 4) Density Power Divergence based. \n 5) Hellinger Distance based. \n 6) L2 Norm from Probability Distributions \n 7) L(Variable Exponent) Norm from Probability Distributions. \n 8) Generalized Kullback-Leibler Divergence based. \n 9) Itakura-Saito Divergence based. \n 10) Jensen-Shannon Divergence based. \n');
+%    11) Havrda-Charvat Divergence based.
+%    12) Rényi Divergence based.
+version_fitness=input('\ \n Introduce the Fitness Function that you want to apply: \n 1) L2 Norm. Sum of the squared errors (Default). \n 2) L1 Norm. Sum of the absolute values of the error. \n 3) Kullback-Leibler Divergence based. \n 4) Density Power Divergence based. \n 5) Hellinger Distance based. \n 6) L2 Norm from Probability Distributions \n 7) L(Variable Exponent) Norm from Probability Distributions. \n 8) Generalized Kullback-Leibler Divergence based. \n 9) Itakura-Saito Divergence based. \n 10) Jensen-Shannon Divergence based. \n 11) Havrda-Charvat Divergence based \n 12)Rényi Divergence based \n');
 if isempty(version_fitness),
     version_fitness=1;   
     fprintf(1,'\n \t Option 1 by default. \n');
 end
 
 alpha=0;
-if ((version_fitness==4)||(version_fitness==7))
+if ((version_fitness==4)||(version_fitness==7)||(version_fitness==11)||(version_fitness==12))
 alpha=input('\ \n Introduce variable parameter apply (0-1): \n ');
 if isempty(alpha),
    alpha=0.1;   
