@@ -85,9 +85,10 @@ for num_ensayo=1:numero_ensayos,
     
 end
 T=num2cell(results);
+T = cell2table(T,'VariableNames',{'Nºens','Pos error','Ori error'})
 xlswrite('exp-1%-div(100,110,5,0).xls',T)
 %T = cell2table(results,'VariableNames',{'Nºensayo','Error Pos','Error Ori'});
-Resultado=results
+end
 
 
 

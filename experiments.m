@@ -77,15 +77,19 @@ end
 results=zeros(numero_ensayos,3);
 
 for num_ensayo=1:numero_ensayos,
-    fprintf(1,'\n \t Ensayo número: %f. \n',num_ensayo);
+    fprintf(1,'\n \t Ensayo número: %d. \n',num_ensayo);
     [pos,pos_err,ori_err]=local_3D_real(posicion, err_dis, iter_max,mapmin,mapmax,Mapa_3D,NP,version_de,version_fitness,alpha);
     results(num_ensayo,1)=num_ensayo;
     results(num_ensayo,2)=pos_err;
     results(num_ensayo,3)=ori_err;
     
 end
+filename='experimentos_sensor_1%.xlsx';
+sheet=version_fitness;
+T=num2cell(results);
+xlswrite(filename,T,sheet);
 %T = cell2table(results,'VariableNames',{'Nºensayo','Error Pos','Error Ori'});
-Resultado=results
+end
 
 
 
