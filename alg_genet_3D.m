@@ -61,6 +61,7 @@ imp_count=1;
 error_max=100000;
 error=10000;
 dif_errores=100000;
+ratio_error=100;
 
 %Para la primera poblacion
 for i=1:NP
@@ -157,8 +158,17 @@ while (count<=iter_max)%&&(error~=error_max)&&(error_max>error+10)%3*NP/2) %&&(e
     %La poblacion pasa a la nueva generacion
     poblacion=pob_aux;
     
+    %tenemos en cuenta cuan bueno es el mejor elemento para hacer
+    %discarding o no
+    
+    
+    if version_fitness==10,
+        
+        ratio_error=error/6;
+    end    
+    
     %DISCARDING
-    if version_de~=2
+    if (version_de~=2)&&(ratio_error<4.15)
         pob_orden=sortrows(poblacion,1);
         for i=1:(int8(NP/20))
             disc=random('unid',floor(NP/2));
@@ -198,14 +208,14 @@ while (count<=iter_max)%&&(error~=error_max)&&(error_max>error+10)%3*NP/2) %&&(e
     end    
     dif_errores=dif_errores_aux;
     error_global=sum(poblacion(:,1)); 
-    %CONDICION DE CONVERGENCIA, CUANDO NOS ACERCAMOS, LIMITAMOS EL AREA
-    if error-error_max<1
-        F=0.2;
-    end
-    %CONDICION DE CONVERGENCIA, SI SE HA LLEGADO DISMINUIMOS POBLACION
-    if error-error_max==0
-        NP=10;
-    end
+%     %CONDICION DE CONVERGENCIA, CUANDO NOS ACERCAMOS, LIMITAMOS EL AREA
+%     if error-error_max<1
+%         F=0.2;
+%     end
+%     %CONDICION DE CONVERGENCIA, SI SE HA LLEGADO DISMINUIMOS POBLACION
+%     if error-error_max==0
+%         NP=10;
+%     end
     
     if imp_count==5
         fprintf(1,'\n It: %f, Mejor %f, Peor: %f, Global: %f, Mejor por medida: %f \n Posicion (x, y, z, theta): [%f, %f, %f, %f] \n',count,error,error_max,error_global,error_med,poblacion(1,2),poblacion(1,3),poblacion(1,4),poblacion(1,5));
