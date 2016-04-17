@@ -13,6 +13,8 @@ addpath('GLTreePro');
 [m,n,o]=size(Mapa_3D);
 mapmax=[m,n,o,360];
 mapmin=[1,1,1,1];
+divergencias=[3,4,9,10]; %%divergencias usadas en cada experimento
+alpha=1;
 
 % Variables introduced via keyboard
 [posicion, err_dis, iter_max]=initialization(mapmin,mapmax,Mapa_3D);
@@ -26,19 +28,20 @@ else
     NP=450;
 end
 NP=round(NP)
-%--------------------------------------------------------------------------
-% Different options for the GL algorithm can be selected via keyboard:
-%  - DE Core Options:
-%    1) Random Mutation, with Thresholding and Discarding (Default). 
-%    2) Basic version, Random Mutation, without Thresholding, Discarding.
-%    3) Mutation from Best candidate, with Thresholding and Discarding.
-%    4) Random Mutation, with Thresholding and Discarding, NP is
-%    drastically reduced (tracking) after convergence.
-version_de=input('\ \n Introduce the DE version that you want to apply: \n 1) Random Mutation, with Thresholding and Discarding. \n 2) Basic version, Random Mutation, without Thresholding, Discarding. \n 3) Mutation from Best candidate, with Thresholding and Discarding. \n 4) Random Mutation, with Thresholding and Discarding, NP reduced (tracking) after convergence. \n');
-if isempty(version_de),
-    version_de=1;   
-    fprintf(1,'\n \t Option 1 by default. \n');
-end
+version_de=1
+% %--------------------------------------------------------------------------
+% % Different options for the GL algorithm can be selected via keyboard:
+% %  - DE Core Options:
+% %    1) Random Mutation, with Thresholding and Discarding (Default). 
+% %    2) Basic version, Random Mutation, without Thresholding, Discarding.
+% %    3) Mutation from Best candidate, with Thresholding and Discarding.
+% %    4) Random Mutation, with Thresholding and Discarding, NP is
+% %    drastically reduced (tracking) after convergence.
+% version_de=input('\ \n Introduce the DE version that you want to apply: \n 1) Random Mutation, with Thresholding and Discarding. \n 2) Basic version, Random Mutation, without Thresholding, Discarding. \n 3) Mutation from Best candidate, with Thresholding and Discarding. \n 4) Random Mutation, with Thresholding and Discarding, NP reduced (tracking) after convergence. \n');
+% if isempty(version_de),
+%     version_de=1;   
+%     fprintf(1,'\n \t Option 1 by default. \n');
+% end
 %  - Fitness Function Options:
 %    1) L2 Norm. Sum of the squared errors (Default).
 %    2) L1 Norm. Sum of the absolute values of the error (Mahalanobis).
@@ -52,20 +55,20 @@ end
 %    10) Jensen-Shannon Divergence based.
 %    11) Havrda-Charvat Divergence based.
 %    12) Rényi Divergence based.
-version_fitness=input('\ \n Introduce the Fitness Function that you want to apply: \n 1) L2 Norm. Sum of the squared errors (Default). \n 2) L1 Norm. Sum of the absolute values of the error. \n 3) Kullback-Leibler Divergence based. \n 4) Density Power Divergence based. \n 5) Hellinger Distance based. \n 6) L2 Norm from Probability Distributions \n 7) L(Variable Exponent) Norm from Probability Distributions. \n 8) Generalized Kullback-Leibler Divergence based. \n 9) Itakura-Saito Divergence based. \n 10) Jensen-Shannon Divergence based. \n 11) Havrda-Charvat Divergence based \n 12)Rényi Divergence based \n');
-if isempty(version_fitness),
-    version_fitness=1;   
-    fprintf(1,'\n \t Option 1 by default. \n');
-end
-
-alpha=0;
-if ((version_fitness==4)||(version_fitness==7)||(version_fitness==11)||(version_fitness==12))
-alpha=input('\ \n Introduce variable parameter apply (0-1): \n ');
-if isempty(alpha),
-   alpha=0.1;   
-    fprintf(1,'\n \t Alpha=%f by default. \n',alpha);
-end
-end
+% version_fitness=input('\ \n Introduce the Fitness Function that you want to apply: \n 1) L2 Norm. Sum of the squared errors (Default). \n 2) L1 Norm. Sum of the absolute values of the error. \n 3) Kullback-Leibler Divergence based. \n 4) Density Power Divergence based. \n 5) Hellinger Distance based. \n 6) L2 Norm from Probability Distributions \n 7) L(Variable Exponent) Norm from Probability Distributions. \n 8) Generalized Kullback-Leibler Divergence based. \n 9) Itakura-Saito Divergence based. \n 10) Jensen-Shannon Divergence based. \n 11) Havrda-Charvat Divergence based \n 12)Rényi Divergence based \n');
+% if isempty(version_fitness),
+%     version_fitness=1;   
+%     fprintf(1,'\n \t Option 1 by default. \n');
+% end
+% 
+% alpha=0;
+% if ((version_fitness==4)||(version_fitness==7)||(version_fitness==11)||(version_fitness==12))
+% alpha=input('\ \n Introduce variable parameter apply (0-1): \n ');
+% if isempty(alpha),
+%    alpha=0.1;   
+%     fprintf(1,'\n \t Alpha=%f by default. \n',alpha);
+% end
+% end
 
 numero_ensayos=input('\ \n Introduce numero de veces a lanzar el algoritmo para realizar el experimento \n');
 if isempty(numero_ensayos),
@@ -73,22 +76,39 @@ if isempty(numero_ensayos),
     fprintf(1,'\n \t Por defecto se realizan 25 pruebas \n');
 end
 
-
+for j=1:4;
+    
 results=zeros(numero_ensayos,3);
+div=divergencias(j);
+
+if div==3,
+    div_string='KL';
+elseif div==4,
+    div_string='DPD';
+elseif div==9;
+    div_string='IS';
+elseif div==10;
+    div_string='JS';
+end
+    
+ 
 
 for num_ensayo=1:numero_ensayos,
-    fprintf(1,'\n \t Ensayo número: %d. \n',num_ensayo);
-    [pos,pos_err,ori_err]=local_3D_real(posicion, err_dis, iter_max,mapmin,mapmax,Mapa_3D,NP,version_de,version_fitness,alpha);
+    fprintf(1,'\n \t %s, Ensayo número: %d. \n',div_string,num_ensayo);
+    [pos,pos_err,ori_err]=local_3D_real(posicion, err_dis, iter_max,mapmin,mapmax,Mapa_3D,NP,version_de,div,alpha);
     results(num_ensayo,1)=num_ensayo;
     results(num_ensayo,2)=pos_err;
     results(num_ensayo,3)=ori_err;
     
 end
+
+%exportamos tabla de resultados a una hoja excel
 filename='experimentos_sensor_1%.xlsx';
-sheet=version_fitness;
+sheet=div;
 T=num2cell(results);
 xlswrite(filename,T,sheet);
 %T = cell2table(results,'VariableNames',{'Nºensayo','Error Pos','Error Ori'});
+end
 end
 
 

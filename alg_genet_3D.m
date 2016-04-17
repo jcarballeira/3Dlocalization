@@ -61,7 +61,7 @@ imp_count=1;
 error_max=100000;
 error=10000;
 dif_errores=100000;
-ratio_error=100;
+lim_error=100000;
 
 %Para la primera poblacion
 for i=1:NP
@@ -161,14 +161,22 @@ while (count<=iter_max)%&&(error~=error_max)&&(error_max>error+10)%3*NP/2) %&&(e
     %tenemos en cuenta cuan bueno es el mejor elemento para hacer
     %discarding o no
     
+    if version_fitness==3,
+        lim_error=31000000;
+    end
+    if version_fitness==4,
+        lim_error=100/9;
+    end
+    if version_fitness==9,        
+        lim_error=1750/9;
+    end    
     
-    if version_fitness==10,
-        
-        ratio_error=error/6;
+    if version_fitness==10,        
+        lim_error=30/9;
     end    
     
     %DISCARDING
-    if (version_de~=2)&&(ratio_error<4.15)
+    if (version_de~=2)&&(error<lim_error)
         pob_orden=sortrows(poblacion,1);
         for i=1:(int8(NP/20))
             disc=random('unid',floor(NP/2));

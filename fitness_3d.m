@@ -130,7 +130,8 @@ if (version_fitness==3)
     end
     end
     
-    error=KLD_T*(exp(OCL_T/num_medidas*num_barridos));
+%     error=KLD_T*(exp(OCL_T/(num_medidas*num_barridos)));
+      error=KLD_T/(num_medidas*num_barridos);
 end
 
 if version_fitness==4
@@ -320,7 +321,7 @@ if (version_fitness==7)
         LV_Total=LV_Total+LV^(1/alpha);
     end
     end
-    error=LV_Total/num_medidas*num_barridos;
+    error=LV_Total/(num_medidas*num_barridos);
     %error=L2_Total*(exp(OCL_T/num_medidas));
 end
 
@@ -373,7 +374,7 @@ if (version_fitness==8)
     end
     end
     
-    error=KLD_T*(exp(OCL_T/num_medidas*num_barridos));
+    error=KLD_T/(num_medidas*num_barridos);%%*(exp(OCL_T/num_medidas*num_barridos));
 
 end
 
@@ -419,7 +420,7 @@ if (version_fitness==9)
         end
     end
     end
-    error=IS/num_medidas*num_barridos;
+    error=IS/(num_medidas*num_barridos);
     %error=IS*(exp(OCL_T/num_medidas));
 end
 
@@ -466,7 +467,7 @@ if (version_fitness==10)
        
     end
     end
-    error=JS/num_medidas*num_barridos;
+    error=JS/(num_medidas*num_barridos);
     %error=JS*(exp(OCL_T/num_medidas));
 end
 % Havrda-Charvat
