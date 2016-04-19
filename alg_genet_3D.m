@@ -176,7 +176,7 @@ while (count<=iter_max)%&&(error~=error_max)&&(error_max>error+10)%3*NP/2) %&&(e
     end    
     
     %DISCARDING
-    if (version_de~=2)&&(error<lim_error)
+    if (version_de~=2)%%&&(error<lim_error)
         pob_orden=sortrows(poblacion,1);
         for i=1:(int8(NP/20))
             disc=random('unid',floor(NP/2));
@@ -225,7 +225,7 @@ while (count<=iter_max)%&&(error~=error_max)&&(error_max>error+10)%3*NP/2) %&&(e
 %         NP=10;
 %     end
     
-    if imp_count==5
+    if imp_count==20
         fprintf(1,'\n It: %f, Mejor %f, Peor: %f, Global: %f, Mejor por medida: %f \n Posicion (x, y, z, theta): [%f, %f, %f, %f] \n',count,error,error_max,error_global,error_med,poblacion(1,2),poblacion(1,3),poblacion(1,4),poblacion(1,5));
         imp_count=0;
     end

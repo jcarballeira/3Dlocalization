@@ -1,6 +1,0 @@
-
-
-Experimentos:
-
-- Cómo cubrir todos los tipos de divergencias
-- Criterio de ceonvergencia común a todas las divergencias??
