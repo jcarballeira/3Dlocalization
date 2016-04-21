@@ -13,7 +13,7 @@ addpath('GLTreePro');
 [m,n,o]=size(Mapa_3D);
 mapmax=[m,n,o,360];
 mapmin=[1,1,1,1];
-divergencias=[9,10];%%divergencias usadas en cada experimento
+divergencias=[3,4,9,10];%%divergencias usadas en cada experimento
 alpha=1;
 
 % Variables introduced via keyboard
@@ -76,7 +76,7 @@ if isempty(numero_ensayos),
     fprintf(1,'\n \t Por defecto se realizan 25 pruebas \n');
 end
 
-for j=1:2;
+for j=1:4;
     
 results=zeros(numero_ensayos,3);
 div=divergencias(j);
@@ -104,11 +104,13 @@ end
 
 %exportamos tabla de resultados a una hoja excel
 filename='experimentos_sensor_1%.xlsx';
-sheet=div;
+sheet=div; %hoja de excel 
 T=num2cell(results);
-xlswrite(filename,T,sheet,'A9');
-xlswrite(filename,pos,sheet,'A4');
-%T = cell2table(results,'VariableNames',{'Nºensayo','Error Pos','Error Ori'});
+xlswrite(filename,T,sheet,'A9'); %escribimos la tabla
+xlswrite(filename,posicion,sheet,'A4');%escribimos la posicion analizada
+if div==10,
+    send_email
+ end    
 end
 end
 
