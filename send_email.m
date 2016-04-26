@@ -15,7 +15,7 @@ props.setProperty('mail.smtp.socketFactory.class', ...
                   'javax.net.ssl.SSLSocketFactory');
 props.setProperty('mail.smtp.socketFactory.port','465');
 
-sendmail(myaddress, 'Matlab: experimento terminado', 'El experimento en laboratorio ha terminado Sr.Carballeira','experimentos_sensor_1%.xlsx');
+sendmail(myaddress, 'Matlab: experimento terminado', 'El experimento en laboratorio ha terminado Sr.Carballeira','experimentos_ruido_sensor_variable.xlsx');
 
 
 

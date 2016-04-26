@@ -17,7 +17,7 @@ divergencias=[3,4,9,10];%%divergencias usadas en cada experimento
 alpha=1;
 
 % Variables introduced via keyboard
-[posicion, err_dis, iter_max]=initialization(mapmin,mapmax,Mapa_3D);
+[posicion, iter_max]=initialization(mapmin,mapmax,Mapa_3D);
 %   Initialization of population size (NP). 2 options according to NP_opt: 
 %                       1: Initialized by function init_NP
 %                       Else: Fixed size given by code.
@@ -72,14 +72,15 @@ version_de=1
 
 numero_ensayos=input('\ \n Introduce numero de veces a lanzar el algoritmo para realizar el experimento \n');
 if isempty(numero_ensayos),
-    numero_ensayos=25;   
-    fprintf(1,'\n \t Por defecto se realizan 25 pruebas \n');
+    numero_ensayos=5;   
+    fprintf(1,'\n \t Por defecto se realizan 5 pruebas \n');
 end
 
-for j=1:4;
+fnam='A1';
+for err_dis=1:10;
     
-results=zeros(numero_ensayos,3);
-div=divergencias(j);
+results=zeros(numero_ensayos,4);
+div=3;
 
 if div==3,
     div_string='KL';
@@ -94,21 +95,24 @@ end
  
 
 for num_ensayo=1:numero_ensayos,
-    fprintf(1,'\n \t %s, Ensayo número: %d. \n',div_string,num_ensayo);
+    fprintf(1,'\n \t %s, Error: %d. Ensayo número: %d.  \n',div_string,err_dis,num_ensayo);
     [pos,pos_err,ori_err]=local_3D_real(posicion, err_dis, iter_max,mapmin,mapmax,Mapa_3D,NP,version_de,div,alpha);
-    results(num_ensayo,1)=num_ensayo;
-    results(num_ensayo,2)=pos_err;
-    results(num_ensayo,3)=ori_err;
+    results(num_ensayo,1)=err_dis;
+    results(num_ensayo,2)=num_ensayo;
+    results(num_ensayo,3)=pos_err;
+    results(num_ensayo,4)=ori_err;
     
 end
 
 %exportamos tabla de resultados a una hoja excel
-filename='experimentos_sensor_1%.xlsx';
+filename='experimentos_ruido_sensor_variable.xlsx';
 sheet=div; %hoja de excel 
 T=num2cell(results);
-xlswrite(filename,T,sheet,'A9'); %escribimos la tabla
-xlswrite(filename,posicion,sheet,'A4');%escribimos la posicion analizada
-if div==10,
+fext='A';
+fnam=sprintf('%s%d',fext,numero_ensayos*err_dis);
+xlswrite(filename,T,sheet,fnam); %escribimos la tabla
+
+if err_dis==10,
     send_email
  end    
 end

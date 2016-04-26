@@ -1,4 +1,4 @@
-function[posicion, err_dis, iter_max]=initialization(mapmin,mapmax,Mapa_3D)
+function[posicion, iter_max]=initialization(mapmin,mapmax,Mapa_3D)
 %--------------------------------------------------------------------------
 %   Function: initialization
 %   Author: Fernando Martin Monar.
@@ -60,13 +60,13 @@ while(Mapa_3D(round(posicion(1)),round(posicion(2)),round(posicion(3)))==0),
      end
 end
 %--------------------------------------------------------------------------
-%The simulated laser error is computed
-err_dis=input('\n Introduzca el error del sensor a introducir en el calculo de las distancias (en %): \ \');
-err_dis=err_dis/100;
-if isempty(err_dis),
-    err_dis=0.1;    % Error en las distancias err_dis=10%
-    fprintf(1,'\n \t Por defecto el error cometido en las lecturas de los sensores es del %.2f%%  \n',err_dis*100);
-end
+% %The simulated laser error is computed
+% err_dis=input('\n Introduzca el error del sensor a introducir en el calculo de las distancias (en %): \ \');
+% err_dis=err_dis/100;
+% if isempty(err_dis),
+%     err_dis=0.1;    % Error en las distancias err_dis=10%
+%     fprintf(1,'\n \t Por defecto el error cometido en las lecturas de los sensores es del %.2f%%  \n',err_dis*100);
+% end
 %--------------------------------------------------------------------------
 % Genetic algorithm population size
 % NP=100;
