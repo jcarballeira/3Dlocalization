@@ -72,12 +72,12 @@ version_de=1
 
 numero_ensayos=input('\ \n Introduce numero de veces a lanzar el algoritmo para realizar el experimento \n');
 if isempty(numero_ensayos),
-    numero_ensayos=5;   
+    numero_ensayos=10;   
     fprintf(1,'\n \t Por defecto se realizan 5 pruebas \n');
 end
 
 fnam='A1';
-for error_dis=1:10;
+for error_dis=1:20;
     
 results=zeros(numero_ensayos,4);
 div=3;
